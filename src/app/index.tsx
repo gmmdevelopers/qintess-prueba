@@ -26,24 +26,20 @@ import flaightsData from "../data/vuelos.json";
 export default function HomeScreen() {
   const [flaights, setFlaights] = useState<IFlights[]>(flaightsData);
   const [query, setQuery] = useState("");
-
-  useEffect(() => {
-    const flights = availableFlights();
-    const sortedFlighhts = sortFlights();
-    const foundFlisghts = findFlights("SCL");
-    console.log("1: ", flights);
-    console.log("2: ", sortedFlighhts);
-    console.log("3: ", foundFlisghts);
-  }, []);
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
 
   const handleGetAvailableFlisgths = () => {
     const flights = availableFlights();
     setFlaights(flights);
+    setQuery("");
   };
 
   const handleSortFlisgths = () => {
-    const flights = sortFlights();
+    const nextOrder = sortOrder === "asc" ? "desc" : "asc";
+    const flights = sortFlights(nextOrder);
+    setSortOrder(nextOrder);
     setFlaights(flights);
+    setQuery("");
   };
 
   const handleQueryChange = (t: string) => {
@@ -71,7 +67,11 @@ export default function HomeScreen() {
             onPress={handleGetAvailableFlisgths}
           />
           <Button
-            title="Ordenar precio de menor a mayor"
+            title={
+              sortOrder === "asc"
+                ? "Ordenar precio de menor a mayor"
+                : "Ordenar precio de mayor a menor"
+            }
             onPress={handleSortFlisgths}
           />
           <TextInput
