@@ -85,7 +85,14 @@ export default function HomeScreen() {
             data={flaights}
             renderItem={({ item }) => (
               <View>
-                <Text style={{ color: "white" }}>ID: {item.id}</Text>
+                <View style={styles.rowHeader}>
+                  <Text style={{ color: "white" }}>ID: {item.id}</Text>
+                  {item.asientos === 0 && (
+                    <View style={styles.badgeAgotado}>
+                      <Text style={styles.badgeAgotadoText}>AGOTADO</Text>
+                    </View>
+                  )}
+                </View>
                 <Text style={{ color: "white" }}>
                   Asientos: {item.asientos}
                 </Text>
@@ -138,5 +145,23 @@ const styles = StyleSheet.create({
     paddingHorizontal: Spacing.three,
     paddingVertical: Spacing.four,
     borderRadius: Spacing.four,
+  },
+  rowHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    gap: Spacing.two,
+  },
+  badgeAgotado: {
+    backgroundColor: "#D93F3F",
+    paddingHorizontal: Spacing.two,
+    paddingVertical: Spacing.half,
+    borderRadius: Spacing.one,
+  },
+  badgeAgotadoText: {
+    color: "#ffffff",
+    fontSize: 11,
+    fontWeight: "700",
+    letterSpacing: 0.5,
   },
 });
